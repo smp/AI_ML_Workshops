@@ -57,7 +57,7 @@ This lab will walk you through the following:
 
 4. We are going to deploy a pre-built application via a CloudFormation template - this will be a fully-functioning recommendation system, allowing access to multiple Amazon Personalize features.  But it has one drawback - there are no models built into it!  So we will create them in this lab, and when they are ready we will re-configure this application to use them. But first we need to deploy this skeleton application but downloading this file, which is available until Sunday May 13th 2019.  Click on the following link to download the template to a file on your local computer
 
-   https://personalize-video-lab.s3.amazonaws.com/cloudformation_template.yml?AWSAccessKeyId=AKIAJOLHZSJ7PQR6MZZQ&Expires=1557732409&Signature=70AWpsY5pJ%2BNqizGCgFECc%2Fd2W4%3D
+   https://personalize-video-lab.s3.amazonaws.com/cloudformation_template.yml?AWSAccessKeyId=AKIAJOLHZSJ7PQR6MZZQ&Expires=1561967151&Signature=4mXr1rh2AD39uUXD4ZTkGZPmLzQ%3D
 
 5. There will already be one stack deployed into your account, but we need to create another.  On the CloudFormation screen, click on the **Create Stack** button to start the deployment wizard, and in the **Choose a template** section select **Upload a template to Amazon S3**, click on the **Choose file** button, and select the template file that you just downloaded.  Then click on **Next**.
 
@@ -265,9 +265,9 @@ There are many ways to connect to a remote machine using SSH.  This Lab Guide wi
 13. At this point your application server doesn't actually have any credentials to call the APIs - up until this point we haven't had to call any, but we soon will.  At the beginning of this Lab you were asked to copy a block of credentials from the **Console Login** screen - please retrieve these, and in your SSH session window hit CTRL-C to stop the web server, and paste them in, which will look something like the following.  Don't forget to press [RETURN] after the **AWS_DEFAULT_REGION** line in case it didn't copy
 
     ```bash
-    $ export AWS_ACCESS_KEY_ID=ASIA4Z4H7HCK77HDAAU7
-    $ export AWS_SECRET_ACCESS_KEY=HUIF8YtnJuFNmsHBPpy1/84GLTACfwnfnKpek/ii
-    $ export AWS_SESSION_TOKEN=FQoGZXIvYXdzEDIaDAUZOl88iCJCQnrNvCLuAcYpe5HMk+8pyB0MGNovjMfL/JoUoFNvPP5okLAPl1Ojs68wRZOIH64e4r2u7xWz9HV2kR6VMXeMJhCmqGZ5+qj+GhHyYUFv3DJUoGyq1e/lO5HsuyJpLqH6UelQ5eYTMX2rErOwen+RBsFOkl7jxERN557/9UW6hun9szAp9O/WWXQVDXOAMOgrRD+X2FQtsY4qpju+pUpYmNPK7rX8x+8Nidfykko+YQdB/YWmimr1fS9ZlsYvYIxUr7xfOKLZ347HVVUDKshdYMCYRZok3Bl4yAleWZyuKRG+e0Bah1VzLXgbkfSh2LV/qtNq79IouLnB5gU=
+    $ export AWS_ACCESS_KEY_ID=******
+    $ export AWS_SECRET_ACCESS_KEY=******
+    $ export AWS_SESSION_TOKEN=************************************
     $ export AWS_DEFAULT_REGION=us-east-1
     ```
 

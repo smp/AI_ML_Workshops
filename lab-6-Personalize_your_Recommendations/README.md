@@ -3,14 +3,6 @@
 
 # Personalize Your Recommendations
 
-```bash
-'NOTE' this lab has been designed for Amazon Personalize whilst it was still in Preview;
-this means that you cannot interact with the service unless your AWS account has been
-explicitly whitelisted.  Soon after the service becomes 'Generally Available' the lab guide
-will be updated so that it can run in your own AWS account rather than via the AWS Event
-Engine system.
-```
-
 ## Overview
 
 Amazon Personalize is a machine learning service that makes it easy for developers to create individualized recommendations for customers using their applications.
@@ -28,18 +20,6 @@ This lab will walk you through the following:
 - Adding your campaign to Video Recommendation application
 
 # Deploy the Video Recommendation App
-
-## Connect to the "Event Engine" system
-
-1. Sign into the AWS Management Console via the AWS Event Engine by opening this link in another window or tab: [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/)
-
-2. In the dialog enter your lab "hash" key and click **Proceed**
-
-![Event login page](images/eventLoginPage.png)
-
-3. In the User Dashboard screen click on **AWS Console**.  First, copy the credentials block at the bottom of the Console Login screen, as you will need these later, and click on the **Open Console** link.
-
-![Console login](images/eventConsoleLogin.png)
 
 ## Deploy the "Video Recommendation" Algorithm
 
@@ -81,13 +61,9 @@ This lab will walk you through the following:
 
    ![Create notebook instance](images/Picture02.png)Type _[Name]-lab-notebook_ into the **Notebook instance name** text box, and then _ml.m5.2xlarge_ into **the Notebook instance type**.  Note, for this lab the majority of the work is performed by the Amazon Personalize service, so there is not need to launch a large, compute-optimized C5 or GPU-based instance type.
 
-3. Head over to the IAM console page that you opened earlier, and in the **Search IAM** box on the top-left enter **TeamRole** and select the role in the search results list.
+4. In the _IAM role_ field in **Permissions and encryption** section choose _Enter a new role_, and in the resultant dialog enter the S3 permissions that you required; for the sake of this lab you can just select *Any S3 bucket*, as indicated below, but for a Production system you should restrict as per your internal requirements.
 
-   ![Find TeamRole](images/findTeamRole.png)
-
-4. Hit the clipboard icon to the right of the **Role ARN** line at the top of the form to copy the full ARN into your computer's clipboard.  Head back to the **SageMaker** window where you have part-created a notebook.  In the _IAM role_ field in **Permissions and encryption** section choose _Enter a custom IAM role ARN_ and paste the _TeamRole_ ARN into the box below.  Note that your ARN will have a different account number from that shown.
-
-   ![Set TeamRole](images/setNotebookIAM.png)
+   ![Set TeamRole](images/chooseS3BuckerPermissions.png)
 
 5. Scroll down and click on **Create Notebook Instance**.  Wait the notebook instance status is **InService**. This will take a few minutes once the creation process has started.  Then click on **Open Jupyter** - whilst you're waiting you can perform step #1 of the next section to copy some files from Git
 

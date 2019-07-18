@@ -51,13 +51,13 @@ This lab will walk you through the following:
 
   ![](images/cfnOtherParams.png)
 
-8. There then follows two more screens.  The first is called *Options*, but we have none to enter so just click on **Next**.  The second is the final *Review* screen - **please verify** that the **KeyName** is the one that you just downloaded, and then click on **Create**.  This will then go and create the environment, which will take around 10 minutes, but we do not need to wait and once the console returns to the main CloudFormation screen you can continue with the next lab step. 
+8. There then follows two more screens.  The first is called *Options*, but we have none to enter so just click on **Next**.  The second is the final *Review* screen - **please verify** that the **KeyName** is the one that you just downloaded, and then click on **Create**.  This will then go and create the environment, which will take around 10-15 minutes minutes.  Unfortunately, we are creating IAM resources, so we cannot continue until it has completed - so read ahead and get a feel for what's coming up next. 
 
 # Setup your Jupyter Notebook environment
 
 ## Launching a Jupyter Notebook using Amazon SageMaker
 
-1. Click on **Amazon SageMaker** from the list of all services by entering *Sagemaker* into the **Find services** box.  This will bring you to the Amazon SageMaker console homepage.  In another browser tab navigate to the **IAM** console homepage, as we'll need that shortly.
+1. Click on **Amazon SageMaker** from the list of all services by entering *Sagemaker* into the **Find services** box.  This will bring you to the Amazon SageMaker console homepage.  In another browser tab or window, navigate to the **IAM** console homepage, as we'll need that shortly.
 
 ![Sagemaker console](images/consoleSMSelect.png)
 
@@ -65,11 +65,15 @@ This lab will walk you through the following:
 
    ![Create notebook instance](images/Picture02.png)Type _[Name]-lab-notebook_ into the **Notebook instance name** text box, and then _ml.t2.medium_ into the **Notebook instance type** field.  Note, for this lab the majority of the work is performed by the Amazon Personalize service and not by your notebook instance, so there is no need to launch a large, compute-optimized C5 or GPU-based instance type - please just use the instance type specified here, as that's all that you need, and using these more powerful, more expensive instance families will not actually help you to complete the workshop any faster.
 
-3. In the _IAM role_ field in **Permissions and encryption** section choose _Create a new role_, and in the resultant dialog enter the S3 permissions that you required; for the sake of this lab you can just select *Any S3 bucket*, as indicated below, and the hi the *Create role* button.  Note, for a Production system you would most likely restrict this to specific S3 buckets as per your internal requirements.
+3. In the _IAM role_ field in **Permissions and encryption** section choose _Enter a custom IAM role ARN_.  Now go over into your open **IAM** tab or window, click in the *Search IAM* field, and then enter **AmazonLab** as the search term.  Select the full role name for SageMaker, being careful not to select the *Delete* or *Edit* options.
 
-![Set TeamRole](images/chooseS3BuckerPermissions.png)
+   ![Open Notebook](images/findSagemakerRole.png)
 
-4. Scroll down and click on **Create Notebook Instance**.  Wait the notebook instance status is **InService**. This will take a few minutes once the creation process has started.  Then click on **Open Jupyter** - whilst you're waiting you can perform step #1 of the next section to copy some files from Git
+4. On the resulting detail screen copy the **Role ARN** value - this role will give your SageMaker notebook sufficient IAM priviledges, and full access to both the Personalize and S3 services.  Note, for a Production system you would most likely restrict this role to specific S3 buckets as per your internal requirements, but this workshop allows access to any S3 bucket.  You can now close this tab or window
+
+5. Go back to your SageMaker screen, and in the *Custom IAM role ARN* field paste in the IAM ARN that you copied in the previous step, scroll down and click on **Create Notebook Instance**
+
+6. Wait until the notebook instance status is **InService**. This will take a few minutes once the creation process has started.  Then click on **Open Jupyter** - whilst you're waiting you can perform step #1 of the next section to copy some files from Git
 
 ![Open Notebook](images/openNotebook.png)
 
@@ -115,11 +119,11 @@ We need to download two files before starting work, which are all stored within 
 
 ## Create Item-to-Item Similarities Solution
 
-1. Using the same methods as before, go to the Services drop-down in the console and navigate to the **Amazon Personalize** service in another tab.  You will see the dataset group that you created earlier
+1. Using the same methods as before, go to the Services drop-down in the console and navigate to the **Amazon Personalize** service in another tab, and select **Dataset groups**.  You will see the dataset group that you created earlier, and click on the name of your dataset group.
 
     ![Dataset groups](images/datasetGroups.png)
 
-2. Click on the name of the your dataset group, then on the left-hand side, which will show you the solution that you're currently creating via your notebook.  Then, select **Solutions and recipes**, then click on the **Create solution** button.
+2. The left-hand side, which will show you the solution that you're currently creating via your notebook.  Then, select **Solutions and recipes**, then click on the **Create solution** button.
 
    ![Solution list](images/solutionList.png)
 
@@ -244,7 +248,21 @@ There are many ways to connect to a remote machine using SSH.  This Lab Guide wi
 
    ![](images/appRecNoModels.png)
 
-At this point we require the solution that is being built in the notebook to complete - until that time we cannot move forward, so you may wish to get some refreshments if you are still waiting for that to complete.
+At this point we require the solution that is being built in the notebook to complete and the associated campaign to have been created - until that time we cannot move forward, so you may wish to get some refreshments if you are still waiting for those two steps to complete.
+
+## Create Additional Personalize Campaigns
+
+If you have built the additional two Personalize models, for Item-to-Item Similarities and Personal Rankings, then you'll need to create the associated campaigns for these solutions, as it is the campaigns that we will add to the application.  If those solutions have been built then continue with these steps, but if not you can always come back to these steps later before adding them to the application.
+
+1. In the AWS Console, go to the **Amazon Personalize** service console, click on **Dataset groups** link on the left-hand menu, and select the **personalize-recs-dataset-group** link, then click into the **Campaigns** menu item on the left.  Select **Create campaign**
+
+   ![](images/campaignSingle.png)
+
+2. First, we want to build the campaign for the *Similar Items* model - enter a name for the campaign, such as *similar-items-campaign*, select via the drop-down that solution that you previously built in the console, *similar-items-solution*, and ensure that minimum TPS is set to 1.  Hit **Create campaign**
+
+   ![](images/createCampaign.png)
+
+3. Now build the campaign for the *Personal Rankings* model - follow the same steps as before, but this time use *rankings-campaign* for the campaign name and select the *rankings-solution* model in the drop-down control.
 
 ## Plug In the Recommendation Model(s)
 
@@ -275,7 +293,7 @@ Each of these modes allows multiple models of their type to be used, but each mo
 
 3. This brings up the *Site Administration* screen, which show entries for Groups and Users (which we don't need), but also a section called **Recommend** where you can add **Personalize models** to the app.  Click on **+Add** link to begin to add a new model
 
-4. Back on the AWS Console, go to the **Amazon Personalize** service console, select the **personalize-recs-dataset-group** and then on the left-hand menu click **Campaigns**.  This will show your **personalize-lab-recs-campaign**, but if you created the two additional solutions earlier then at this point you could could first go into the **Solutions and recipes** menu item, click on each of thes two additional solutions and create the associated campaigns quickly via the console (or feel free to skip this).  Once you're back on the **Campaigns** menu you should see this
+4. Back on the AWS Console, go to the **Amazon Personalize** service console, select the **personalize-recs-dataset-group** and then on the left-hand menu click **Campaigns**.  This will show your **personalize-lab-recs-campaign**, along with the campaigns for the other two solutions if you've created them.  If you've created all three then you should see something like this, but for your other two campaigns may already have been created
 
    ![](images/campaignList.png)
 
